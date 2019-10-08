@@ -5,8 +5,8 @@ Setting up a RedSleeve based Raspberry Pi zero to work as a remote garage door o
 * Write RedSleeve to an SD card with
 ```xzcat /run/media/jschrode/Drive1/Images/raspi-redsleeve7.4-cli-1.0.img.xz | dd status=progress bs=4M of=/dev/sda```
 * Login with ```rpi login: root``` and ```Password: password1234```
-* Change keyboard layout to your locale with ```loadkeys de``` for german layout
-* Make keyboard layout permanent with ```localectl set-keymap de```
+* Change keyboard layout to your locale with ```[root@rpi ~]# loadkeys de``` for german layout
+* Make keyboard layout permanent with ```[root@rpi ~]# localectl set-keymap de```
 * Change root password with ```[root@rpi ~]# passwd```
 * Set up networking with ```[root@rpi ~]# nmtui```:
   - select ```Activate a connection```
