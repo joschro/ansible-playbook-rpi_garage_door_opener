@@ -22,4 +22,4 @@ Setting up a RedSleeve based Raspberry Pi zero to work as a remote garage door o
   - type ```[root@rpi ~]# reboot``` to reboot the system and re-read partition table
   - login as root with the password you set above
   - type ```[root@rpi ~]# resize2fs /dev/mmcblk0p2``` to resize the root filesystem
-* Install required software with ```yum install git``` and accept all questions
+* Install required software with ```[root@rpi ~]# yum install git``` and accept all questions
