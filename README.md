@@ -8,18 +8,18 @@ Setting up a RedSleeve based Raspberry Pi zero to work as a remote garage door o
 * Change keyboard layout to your locale with ```loadkeys de``` for german layout
 * Make keyboard layout permanent with ```localectl set-keymap de```
 * Change root password with ```[root@rpi ~]# passwd```
-* Set up networking with ```nmtui```:
+* Set up networking with ```[root@rpi ~]# nmtui```:
   - select ```Activate a connection```
   - choose your Wifi to connect to and provide the password
   - select ```<Back>```
   - select ```Set system hostname``` and provide a meaningful name for the system
   - select ```Quit```
 * Resize root filesystem with
-  - ```fdisk /dev/mmcblk0```
-  - ```d``` and accept with ```<Enter>```
-  - ```n``` and accept all questions with ```<Enter>```
-  - ```w``` and ```<Enter>``` to write and exit fdisk
+  - ```[root@rpi ~]# fdisk /dev/mmcblk0```
+  - type ```d``` and accept with ```<Enter>```
+  - type ```n``` and accept all questions with ```<Enter>```
+  - type ```w``` and ```<Enter>``` to write and exit fdisk
   - type ```[root@rpi ~]# reboot``` to reboot the system and re-read partition table
   - login as root with the password you set above
   - type ```[root@rpi ~]# resize2fs /dev/mmcblk0p2``` to resize the root filesystem
-* Install required software with ```yum install git``` and accept
+* Install required software with ```yum install git``` and accept all questions
