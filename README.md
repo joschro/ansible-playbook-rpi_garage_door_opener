@@ -22,6 +22,6 @@ Setting up a RedSleeve based Raspberry Pi zero to work as a remote garage door o
   - enter ```[root@rpi ~]# reboot``` to reboot the system and re-read partition table
   - login as root with the password you set above
   - enter ```[root@rpi ~]# resize2fs /dev/mmcblk0p2``` to resize the root filesystem
-* Install required software with ```[root@rpi ~]# yum -y install epel-release git ansible``` and accept all questions
+* Install required software with ```[root@rpi ~]# yum -y install epel-release``` and then ```[root@rpi ~]# yum -y install git ansible```
 * Clone this repository with ```[root@rpi ~]#  git clone https://github.com/joschro/ansible-role-rpi_garage_door_opener.git```
 
