@@ -9,9 +9,9 @@ Setting up a RedSleeve based Raspberry Pi zero to work as a remote garage door o
 5. Make keyboard layout permanent with ```localectl set-keymap de```
 6. Change root password with ```[root@rpi ~]# passwd```
 7. Set up networking with ```nmtui```:
-  * select ```Activate a connection```
-  * choose your Wifi to connect to and provide the password
-  * select ```<Back>```
-  * select ```Set system hostname``` and provide a meaningful name for the system
-  * select ```Quit```
+   * select ```Activate a connection```
+   * choose your Wifi to connect to and provide the password
+   * select ```<Back>```
+   * select ```Set system hostname``` and provide a meaningful name for the system
+   * select ```Quit```
 8. Install required software with ```yum install git```
