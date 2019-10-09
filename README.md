@@ -35,9 +35,9 @@ Setting up a RedSleeve based Raspberry Pi zero to work as a remote garage door o
   - ```[root@rpi ~]# yum -y update```
   and activate updated packages with
   - ```[root@rpi ~]# reboot```
-* Login again as root and clone this repository with 
-  ```[root@rpi ~]#  git clone https://github.com/joschro/ansible-role-rpi_garage_door_opener.git```
-* Change directory to this repository with 
+* Login again as root and clone this repository with  
+  ```[root@rpi ~]# git clone https://github.com/joschro/ansible-role-rpi_garage_door_opener.git```
+* Change directory to this repository with  
   ```[root@rpi ~]# cd ansible-role-rpi_garage_door_opener```
-* Run the Ansible playbook to automate the rest of the installation process with
-  ```ansible-playbook playbook.yml```
+* Run the Ansible playbook to automate the rest of the installation process with  
+  ```root@rpi ~]# ansible-playbook playbook.yml```
