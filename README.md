@@ -1,4 +1,4 @@
-# ansible-role-rpi_garage_door_opener
+# ansible-playbook-rpi_garage_door_opener
 Setting up a RedSleeve based Raspberry Pi zero to work as a remote garage door opener (hardware required)
 
 * Download *raspi-redsleeve7.4-cli-1.0.img.xz* (or any newer release) from [Github](https://github.com/redsleeve-linux/redsleeve-linux.github.io/releases/tag/rpi-7.4-1.0)
