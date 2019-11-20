@@ -1,6 +1,12 @@
 ---
 # tasks file for role wiringpi
 
+- name: Ensure required packages are installed
+  package:
+    name: python-devel,gcc,httpd
+    state: present
+  tags: gpio 
+
 - name: Download latest WebIOPi
   get_url:
     url: "https://sourceforge.net/projects/webiopi/files/latest/download?source=files"
@@ -22,7 +28,70 @@
 
 - name: Build WebIOPi
   command:
-    cmd: ./setup.sh < /tmp/answer.txt
+    cmd: "sh ./setup.sh skip-apt < /tmp/answer.txt"
   args:
-    chdir: /tmp/WebIOPi*/
+    chdir: /tmp/WebIOPi-0.7.1
+  tags: gpio
+
+- name: Ensure the default Apache port is 8080
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    regexp: '^Listen '
+    insertafter: '^#Listen '
+    line: Listen 8080
+  tags: gpio
+
+- name: Update webiopi config - GPIO
+  blockinfile:
+    path: /etc/webiopi/config
+    insertafter: "[GPIO]"
+    block: |
+      2 = OUT 0
+      3 = OUT 0
+  tags: gpio
+
+- name: Update webiopi config - SCRIPTS
+  lineinfile:
+    path: /etc/webiopi/config
+    insertafter: "[SCRIPTS]"
+    line: "myscript = /root/webiopi/scripts/notify.py"
+  tags: gpio
+
+- name: Update webiopi config - REST
+  blockinfile:
+    path: /etc/webiopi/config
+    insertafter: "[REST]"
+    block: |
+      gpio-export = 2, 3
+      gpio-post-function = false 
+  tags: gpio
+
+- name: Update webiopi config - ROUTES
+  blockinfile:
+    path: /etc/webiopi/config
+    insertafter: "[ROUTES]"
+    block: |
+      /dus/garage = /GPIO/2
+      /dus/garagetest = /GPIO/3
+  tags: gpio
+
+- name: Update webiopi passwd
+  lineinfile:
+    path: /etc/webiopi/passwd
+    regex: ""
+    line: "03d189bedf4755fbd94ea9f0248f81c404ef7f14654692cd8d2b949ae8e4b62e"
+  tags: gpio
+
+- name: Install notify.py script
+  template:
+    src: notify.py.jp2
+    dest: /root/webiopi/scripts/notify.py
+    mode: u=rwx,g=rwx,o=r
+  tags: gpio
+
+- name: Install notifyTelegram.sh script
+  template:
+    src: notifyTelegram.sh.jp2
+    dest: /root/webiopi/scripts/notifyTelegram.sh
+    mode: u=rwx,g=rwx,o=r
   tags: gpio

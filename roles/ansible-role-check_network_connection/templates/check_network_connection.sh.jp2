@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ping -I wlan0 -q -c 2 10.4.110.1 > /dev/null 2>&1
-if [ $? -eq 0 ]; then
+if [ $? -ne 0 ]; then
   nmcli con up "Red Hat Guest"
 fi
 

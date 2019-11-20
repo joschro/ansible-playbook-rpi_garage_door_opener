@@ -1,0 +1,77 @@
+import webiopi
+import datetime
+import smtplib
+import subprocess
+import os
+GPIO = webiopi.GPIO
+
+GARAGE = 2
+
+isNotified = True
+
+def setup():
+    # GPIO.setup(DOOR, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    os.system("logger GARAGE: WebIOPI restarted")
+    os.system("screen -d -m /root/webiopi/scripts/notifyTelegram.sh WebIOPI restarted")
+    now = datetime.datetime.now()
+
+    # test if we are between ON time and tun the light ON
+    # if ((now.hour >= HOUR_ON) and (now.hour < HOUR_OFF)):
+      #   GPIO.digitalWrite(ARM, GPIO.HIGH)
+      #   GPIO.digitalWrite(FLASH, GPIO.HIGH)
+
+
+def loop():
+    global isNotified
+
+    # retrieve current datetime
+    now = datetime.datetime.now()
+    #os.system("logger Reading GPIO status")
+    #if isNotified:
+    #    os.system("logger notification status is: notified")
+
+    #if (GPIO.digitalRead(GARAGE) == GPIO.HIGH):
+    #    os.system("logger GPIO status is: HIGH")
+
+    if (GPIO.digitalRead(GARAGE) == GPIO.HIGH) and not isNotified:
+        notifyMe()
+        os.system("logger GPIO status is: HIGH")
+
+    if (GPIO.digitalRead(GARAGE) == GPIO.LOW) and isNotified:
+        isNotified = False
+        os.system("logger GPIO status is: LOW")
+
+    # gives CPU some time before looping again
+    webiopi.sleep(1)
+
+
+def notifyMe():
+    os.system("logger GARAGE: Telegram notification sent")
+    os.system("screen -d -m /root/webiopi/scripts/notifyTelegram.sh")
+    isNotified = True
+    now = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    f= open("/var/log/webiopi.timestamp", "r")
+
+    if f.mode == 'r':
+	timestamp =f.read()
+    else:
+	timestamp =now
+
+    f.close()
+    if ( int(now) >= int(timestamp) + 60 ):
+	webiopi.sleep(3)
+	GPIO.digitalWrite(GARAGE, GPIO.LOW)
+    	webiopi.sleep(5)
+    	GPIO.digitalWrite(GARAGE, GPIO.HIGH)
+    	f= open("/var/log/webiopi.timestamp","w+")
+    	f.write(now)
+    	f.close()
+
+# destroy function is called at WebIOPi shutdown
+def destroy():
+    GPIO.digitalWrite(GARAGE, GPIO.LOW)
+    os.system("logger GARAGE: WebIOPI shut down")
+    os.system("screen -d -m /root/webiopi/scripts/notifyTelegram.sh WebIOPi shut down")
+
+
+
