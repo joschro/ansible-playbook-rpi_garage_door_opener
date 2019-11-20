@@ -1,0 +1,14 @@
+---
+
+- name: Provide script in /usr/local/bin that checks for either wifi and mobile connection to be up
+  template:
+    src: check_network_connection.sh.jp2
+    dest: /usr/local/bin/check_network_connection.sh
+    mode: u=rwx,g=rwx,o=r
+  tags: network
+
+- name: Create cron job for check_network_connection script
+  cron:
+    name: "check network connection"
+    job: "/usr/local/bin/check_network_connection.sh"
+  tags: network

@@ -1,0 +1,17 @@
+---
+# tasks file for role basic_info
+
+- name: Provide information about local host
+  debug:
+    msg:
+#    - "Everything: {{ hostvars[inventory_hostname] }}"
+    - "IP address: {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+    - "Hostname: {{ hostvars[inventory_hostname]['ansible_env']['HOSTNAME'] }}"
+    - "Ansible connection: {{ hostvars[inventory_hostname]['ansible_connection'] }}"
+    - "Distribution: {{ hostvars[inventory_hostname]['ansible_distribution'] }} {{ hostvars[inventory_hostname]['ansible_distribution_version'] }}"
+
+- name: Ensure required packages are installed
+  package:
+    name: epel-release,git,libselinux-python
+    state: present
+  tags: base

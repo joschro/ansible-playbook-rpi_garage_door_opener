@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  gather_facts: no
+  roles:
+    - { role: ansible-role-basic_setup }
+    - { role: ansible-role-check_network_connection }
+    - { role: ansible-role-wiringpi }
+    - { role: ansible-role-webiopi }

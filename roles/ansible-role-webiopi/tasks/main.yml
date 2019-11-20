@@ -1,0 +1,28 @@
+---
+# tasks file for role wiringpi
+
+- name: Download latest WebIOPi
+  get_url:
+    url: "https://sourceforge.net/projects/webiopi/files/latest/download?source=files"
+    dest: /tmp/WebIOPi.tar.gz
+  tags: gpio
+
+- name: Unpack WebIOPi
+  unarchive:
+    src: /tmp/WebIOPi.tar.gz
+    dest: /tmp
+  tags: gpio
+
+- name: Provide answer file
+  lineinfile:
+    path: /tmp/answer.txt
+    line: n
+    create: yes
+  tags: gpio
+
+- name: Build WebIOPi
+  command:
+    cmd: ./setup.sh < /tmp/answer.txt
+  args:
+    chdir: /tmp/WebIOPi*/
+  tags: gpio

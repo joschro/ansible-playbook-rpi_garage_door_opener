@@ -1,0 +1,34 @@
+---
+
+- name: Provide script in /usr/local/bin that checks for either wifi and mobile connection to be up
+  template:
+    src: ssh-tunnel.sh.jp2
+    dest: /usr/local/bin/ssh-tunnel.sh
+    mode: u=rwx,g=rwx,o=r
+  tags: network
+
+- name: Create cron job for ssh over ssh tunnel
+  cron:
+    name: "create ssh over ssh tunnel"
+    job: "/usr/local/bin/ssh-tunnel.sh 55522 22"
+  tags: network
+
+- name: Create cron job to check if ssh over ssh tunnel is still working
+  cron:
+    name: "check for ssh over ssh tunnel"
+    minute: "*/10"
+    job: 'ssh -p 55522 root@{{ remote_ssh_tunnel }} "sleep 1" || kill $(ps aux | grep "ssh.*55522" | grep -v "SCREEN\|grep"|tr -s " " | cut -d " " -f2) 2>>/var/log/garage.log'
+  tags: network
+
+- name: Create cron job for port 8000 over ssh tunnel
+  cron:
+    name: "create port 8000 over ssh tunnel"
+    job: "/usr/local/bin/ssh-tunnel.sh 8000 8000"
+  tags: network
+
+- name: Create cron job to check if port 8000 over ssh tunnel is still working
+  cron:
+    name: "check for port 8000 over ssh tunnel"
+    minute: "*/10"
+    job: 'curl {{ remote_ssh_tunnel }}:8000 || kill $(ps aux | grep "ssh.*8000" | grep -v "SCREEN\|grep"|tr -s " " | cut -d " " -f2) 2>>/var/log/garage.log'
+  tags: network

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+#set -x
+
+DEST_HOST={{ remote_ssh_tunnel }}
+PORT1=$1
+PORT2=$2
+
+ps ax | grep "ssh -R $PORT1:localhost:$PORT2 root@" | grep -v grep || {
+  screen -d -m ssh -R $PORT1:localhost:$PORT2 root@$DEST_HOST
+  logger -s "$(date) - Started tunnel on port $PORT1" 2>> /var/log/garage.log
+}

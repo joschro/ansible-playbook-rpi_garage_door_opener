@@ -1,0 +1,21 @@
+#!/bin/sh
+
+ping -I wlan0 -q -c 2 10.4.110.1 > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+  nmcli con up "Red Hat Guest"
+fi
+
+ping -I wlan0 -q -c 2 10.4.110.1 > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+  ping -I ppp0 -q -c 2 8.8.4.4 > /dev/null 2>&1 && {
+    #echo "pinging wlan gateway returned code: $?; bringing down mobile connection"
+    screen -d -m /home/dusgarage/notifyTelegram.sh "Switching to wifi connection"
+    nmcli con down netzclub
+  }
+else
+  ping -q -c 2 8.8.4.4 > /dev/null 2>&1 || {
+    #echo "pinging wlan gateway returned code: $?; bringing up mobile connection"
+    screen -d -m /home/dusgarage/notifyTelegram.sh "Switching to mobile connection"
+    nmcli con up netzclub
+  }
+fi

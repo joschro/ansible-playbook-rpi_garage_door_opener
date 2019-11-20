@@ -1,0 +1,22 @@
+---
+# tasks file for role wiringpi
+
+- name: Ensure required packages are installed
+  package:
+    name: wiringpi
+    state: present
+  tags: gpio
+
+- name: Ensure GPIO 2 is initialized on startup
+  lineinfile:
+    path: /etc/rc.local
+    line: /usr/bin/gpio -g mode 2 out; sleep 0.5
+    state: present
+  tags: gpio
+
+- name: Ensure GPIO 2 is set to 0 on startup
+  lineinfile:
+    path: /etc/rc.local
+    line: /usr/bin/gpio -g write 2 0; sleep 0.5
+    state: present
+  tags: gpio
