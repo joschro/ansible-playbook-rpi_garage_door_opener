@@ -78,8 +78,15 @@
 - name: Update webiopi passwd
   lineinfile:
     path: /etc/webiopi/passwd
-    regex: ""
+    regex: "^"
     line: "03d189bedf4755fbd94ea9f0248f81c404ef7f14654692cd8d2b949ae8e4b62e"
+  tags: gpio
+
+- name: Create directory if it does not exist
+  file:
+    path: /root/webiopi/scripts
+    state: directory
+    mode: u=rwx,g=rwx,o=rx
   tags: gpio
 
 - name: Install notify.py script

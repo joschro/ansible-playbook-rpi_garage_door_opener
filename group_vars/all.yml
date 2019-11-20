@@ -1,3 +1,6 @@
 ---
 
-remote_ssh_tunnel: rhdus.freedns.io
+# you must provide the following secrets:
+remote_ssh_tunnel: your.remoteserver.tld
+telegram_chat_id=""
+telegram_chat_key=""
