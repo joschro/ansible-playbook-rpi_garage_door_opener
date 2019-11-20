@@ -16,7 +16,7 @@
 - name: Unpack WebIOPi
   unarchive:
     src: /tmp/WebIOPi.tar.gz
-    dest: /tmp
+    dest: /tmp/
   tags: gpio
 
 - name: Provide answer file
@@ -24,6 +24,20 @@
     path: /tmp/answer.txt
     line: n
     create: yes
+  tags: gpio
+
+- name: Patch WebIOPi
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  with_items:
+    - { src: 'files/cpuinfo.c', dest: '/tmp/WebIOPi-0.7.1/python/native/cpuinfo.c' }
+    - { src: 'files/gpio.c', dest: '/tmp/WebIOPi-0.7.1/python/native/gpio.c' }
+    - { src: 'files/version.py', dest: '/tmp/WebIOPi-0.7.1/python/webiopi/utils/version.py' }
+    - { src: 'files/webiopi.js', dest: '/tmp/WebIOPi-0.7.1/htdocs/webiopi.js' }
   tags: gpio
 
 - name: Build WebIOPi
@@ -106,3 +120,20 @@
     dest: /root/webiopi/scripts/notifyTelegram.sh
     mode: u=rwx,g=rwx,o=r
   tags: gpio
+
+- name: Install systemd service
+  copy:
+    src: "files/webiopi.service"
+    dest: "/etc/systemd/system/webiopi.service"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  tags: gpio
+
+- name: Force systemd to reread config, enable and start service
+  systemd:
+    name: webiopi
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+

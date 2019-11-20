@@ -20,3 +20,10 @@
     line: /usr/bin/gpio -g write 2 0; sleep 0.5
     state: present
   tags: gpio
+
+- name: Create cron job to reset GPIO 2
+  cron:
+    name: "reset gpio 2"
+    job: "/usr/bin/gpio -g write 2 0"
+  tags: gpio
+
