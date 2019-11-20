@@ -3,7 +3,7 @@
 
 - name: Ensure required packages are installed
   package:
-    name: python-devel,gcc,httpd
+    name: python-devel,gcc
     state: present
   tags: gpio 
 
@@ -33,18 +33,20 @@
     chdir: /tmp/WebIOPi-0.7.1
   tags: gpio
 
-- name: Ensure the default Apache port is 8080
-  lineinfile:
-    path: /etc/httpd/conf/httpd.conf
-    regexp: '^Listen '
-    insertafter: '^#Listen '
-    line: Listen 8080
-  tags: gpio
+#- name: Ensure the default Apache port is 8080
+#  lineinfile:
+#    path: /etc/httpd/conf/httpd.conf
+#    regexp: '^Listen '
+#    insertafter: '^#Listen '
+#    line: Listen 8080
+#  tags: gpio
 
 - name: Update webiopi config - GPIO
   blockinfile:
     path: /etc/webiopi/config
-    insertafter: "[GPIO]"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK FOR GPIO"
+    insertafter: "^.GPIO"
+    backup: yes
     block: |
       2 = OUT 0
       3 = OUT 0
@@ -53,14 +55,15 @@
 - name: Update webiopi config - SCRIPTS
   lineinfile:
     path: /etc/webiopi/config
-    insertafter: "[SCRIPTS]"
+    insertafter: "^.SCRIPTS"
     line: "myscript = /root/webiopi/scripts/notify.py"
   tags: gpio
 
 - name: Update webiopi config - REST
   blockinfile:
     path: /etc/webiopi/config
-    insertafter: "[REST]"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK FOR REST"
+    insertafter: "^.REST"
     block: |
       gpio-export = 2, 3
       gpio-post-function = false 
@@ -69,7 +72,8 @@
 - name: Update webiopi config - ROUTES
   blockinfile:
     path: /etc/webiopi/config
-    insertafter: "[ROUTES]"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK FOR ROUTES"
+    insertafter: "^.ROUTES"
     block: |
       /dus/garage = /GPIO/2
       /dus/garagetest = /GPIO/3
