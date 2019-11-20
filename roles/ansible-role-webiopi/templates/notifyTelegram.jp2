@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# telegram group chat:
+CHATID={{ telegram_chat_id }}
+KEY="{{ telegram_chat_key }}"
+TIME="10"
+URL="https://api.telegram.org/bot$KEY/sendMessage"
+TEXT="Garage+door+opened"
+test $# -gt 0 && TEXT="$*"
+
+while :; do
+ ping -c1 -w3 api.telegram.org >/dev/null && break
+ sleep 30
+done
+echo "$(date) - Sending Telegram message: $TEXT" >> /var/log/garage.log
+curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT" $URL >/dev/null && echo "$(date) - Telegram message successfully sent: $TEXT" >> /var/log/garage.log
+
+logger "$(date) - send message: $TEXT"
