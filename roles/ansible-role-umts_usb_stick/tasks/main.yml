@@ -1,0 +1,20 @@
+---
+# tasks file for role umts_usb_stick
+
+- name: Ensure required packages are installed
+  package:
+    name:
+      - NetworkManager-glib
+      - nm-connection-editor
+      - libsemanage-python
+      - policycoreutils-python
+    state: present
+  tags: umts
+
+  - name: Add an Ethernet connection with static IP configuration
+    nmcli:
+      conn_name: netzclub
+      ifname: ppp0
+      type: gsm
+      state: present
+  tags: umts

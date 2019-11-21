@@ -4,3 +4,5 @@
 remote_ssh_tunnel: "your.remoteserver.tld"
 telegram_chat_id: ""
 telegram_chat_key: ""
+umts_pin: ""
+umts_apn: pinternet.interkom.de

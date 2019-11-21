@@ -1,0 +1,25 @@
+---
+# tasks file for role watchdog
+
+- name: Ensure required packages are installed
+  package:
+    name: watchdog
+    state: present
+  tags: watchdog
+
+- name: Update webiopi config - ROUTES
+  blockinfile:
+    path: /etc/watchdog.conf
+    insertbefore: BOF
+    block: |
+      ping                    = 127.0.0.1
+      interface               = lo
+      interval                = 20
+  tags: watchdog
+
+- name: Enable and start watchdog service
+  service:
+    name: watchdog
+    state: started
+    enabled: yes
+  tags: watchdog
