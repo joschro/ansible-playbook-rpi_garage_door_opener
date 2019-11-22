@@ -8,13 +8,20 @@
       - nm-connection-editor
       - libsemanage-python
       - policycoreutils-python
+      - ModemManager
+      - usb_modeswitch
+      - usb_modeswitch-data
+      - ppp
     state: present
   tags: umts
 
-  - name: Add an Ethernet connection with static IP configuration
-    nmcli:
-      conn_name: netzclub
-      ifname: ppp0
-      type: gsm
-      state: present
-  tags: umts
+- name: Add UMTS USB stick connection with Netzclub SIM card
+  shell: |
+    # usb_modeswitch -c /usr/share/usb_modeswitch/1bbb\:f000
+    # usb_modeswitch -v 0x1bbb -p 0xf000 -c /usr/share/usb_modeswitch/1bbb\:f000
+    nmcli c show | grep "{{ umts_provider }}" > /dev/null || nmcli c add con-name "{{ umts_provider }}" type gsm ifname "ppp0" apn "{{ umts_apn }}"
+    nmcli c mod "{{ umts_provider }}" connection.autoconnect yes
+    nmcli c mod "{{ umts_provider }}" gsm.pin "{{ umts_pin }}"
+    nmcli c up "{{ umts_provider }}"
+  tags: noumts
+

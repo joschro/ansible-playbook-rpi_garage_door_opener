@@ -12,6 +12,6 @@
 
 - name: Ensure required packages are installed
   package:
-    name: epel-release,git,libselinux-python
+    name: epel-release,git,libselinux-python,usbutils
     state: present
   tags: base
