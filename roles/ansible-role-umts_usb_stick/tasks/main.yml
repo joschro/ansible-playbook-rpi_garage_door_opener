@@ -5,6 +5,7 @@
   package:
     name:
       - NetworkManager-glib
+      - NetworkManager-wwan
       - nm-connection-editor
       - libsemanage-python
       - policycoreutils-python
@@ -19,9 +20,12 @@
   shell: |
     # usb_modeswitch -c /usr/share/usb_modeswitch/1bbb\:f000
     # usb_modeswitch -v 0x1bbb -p 0xf000 -c /usr/share/usb_modeswitch/1bbb\:f000
-    nmcli c show | grep "{{ umts_provider }}" > /dev/null || nmcli c add con-name "{{ umts_provider }}" type gsm ifname "ppp0" apn "{{ umts_apn }}"
-    nmcli c mod "{{ umts_provider }}" connection.autoconnect yes
-    nmcli c mod "{{ umts_provider }}" gsm.pin "{{ umts_pin }}"
-    nmcli c up "{{ umts_provider }}"
+    # mmcli -m 0 -i 0 --simple-connect="apn={{ umts_apn }},pin={{ umts_pin }}"
+    nmcli c show | grep "{{ umts_provider }}" > /dev/null || {
+      nmcli c add con-name "{{ umts_provider }}" type gsm ifname "*" apn "{{ umts_apn }}"
+      nmcli c mod "{{ umts_provider }}" connection.autoconnect yes
+      nmcli c mod "{{ umts_provider }}" gsm.pin "{{ umts_pin }}"
+    }
+    nmcli c show | grep "{{ umts_provider }}" > /dev/null && nmcli c up "{{ umts_provider }}"
   tags: noumts
 
