@@ -27,5 +27,5 @@
       nmcli c mod "{{ umts_provider }}" gsm.pin "{{ umts_pin }}"
     }
     nmcli c show | grep "{{ umts_provider }}" > /dev/null && nmcli c up "{{ umts_provider }}"
-  tags: noumts
+  tags: umts
 

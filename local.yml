@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-  gather_facts: no
+  gather_facts: yes
   roles:
     - { role: ansible-role-basic_setup }
     - { role: ansible-role-umts_usb_stick }
