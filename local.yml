@@ -5,6 +5,7 @@
     - { role: ansible-role-basic_setup }
     - { role: ansible-role-umts_usb_stick }
     - { role: ansible-role-check_network_connection }
+    - { role: ansible-role-ssh_tunnel }
     - { role: ansible-role-wiringpi }
     - { role: ansible-role-webiopi }
     - { role: ansible-role-watchdog }
