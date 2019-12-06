@@ -1,0 +1,23 @@
+---
+# tasks file for role basic_info
+
+- name: Ensure required packages are installed
+  package:
+    name: arpwatch
+    state: present
+  tags: arpwatch
+
+- name: Copy arpwatch config 
+  template:
+    src: arpwatch.jp2
+    dest: /etc/sysconfig/arpwatch
+    mode: u=rw,g=r,o=r
+  tags: arpwatch
+
+- name: Force systemd to reread config, enable and start service
+  systemd:
+    name: arpwatch
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+  tags: arpwatch
