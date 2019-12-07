@@ -1,6 +1,7 @@
 # ansible-playbook-rpi_garage_door_opener
 Setting up a RedSleeve based Raspberry Pi zero to work as a remote garage door opener (hardware required)
 
+## Install and set up RedSleeve Linux
 * Download *raspi-redsleeve7.4-cli-1.0.img.xz* (or any newer release) from [Github](https://github.com/redsleeve-linux/redsleeve-linux.github.io/releases/tag/rpi-7.4-1.0)
 * Write RedSleeve to an SD card with  
   ```xzcat /run/media/jschrode/Drive1/Images/raspi-redsleeve7.4-cli-1.0.img.xz | dd status=progress bs=4M of=/dev/sda```
@@ -39,6 +40,8 @@ Setting up a RedSleeve based Raspberry Pi zero to work as a remote garage door o
   ```[root@rpi ~]# ssh-keygen```
   from ```~/.ssh/id_rsa.pub``` to the remote server's authorized keys file ```~/.ssh/authorized_keys```
   This enables passwordless login to the remote host which is required for the ssh tunnel setup to work unattended.
+  
+## Download and run this playbook
 * Login again as root and clone this repository with  
   ```[root@rpi ~]# git clone https://github.com/joschro/ansible-playbook-rpi_garage_door_opener.git```
 * Change directory to this repository with  
