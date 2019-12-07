@@ -20,6 +20,7 @@ Setting up a RedSleeve based Raspberry Pi zero to work as a remote garage door o
   - select ```<Back>```
   - select ```Set system hostname``` and provide a meaningful name for the system
   - select ```Quit``` and confirm with ```<OK>```
+  - use the command ```ifconfig``` to show the IP address the RPi got from the DHCP server
 * Resize root filesystem with  
   ```[root@rpi ~]# fdisk /dev/mmcblk0```
   - type ```d``` and accept with ```<Enter>```
