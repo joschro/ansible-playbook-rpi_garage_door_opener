@@ -1,6 +1,10 @@
 ---
 - hosts: localhost
   gather_facts: yes
+  vars:
+    rpi_hostname: rpidus.redhat.com
+  vars_files:
+    - /root/rpi_garage_door_opener_vars.yml
   roles:
     - { role: ansible-role-basic_setup }
     - { role: ansible-role-umts_usb_stick }
