@@ -1,0 +1,30 @@
+---
+
+- name: Set Gateway option in sshd_config
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    line: "GatewayPorts no"
+    create: yes
+  tags: sshd
+
+- name: Force systemd to reread config, enable and start service
+  systemd:
+    name: sshd
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+  tags: sshd
+
+- name: Open port 55522/tcp
+  firewalld:
+    port: 55522/tcp
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Open port 8000/tcp
+  firewalld:
+    port: 8000/tcp
+    permanent: yes
+    immediate: yes
+    state: enabled

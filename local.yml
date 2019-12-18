@@ -1,8 +1,10 @@
 ---
 - hosts: localhost
   gather_facts: yes
+  vars_files:
+    - /root/ansible-playbook-rpi_garage_door_opener-vars.yml
   roles:
-    - { role: ansible-role-basic_setup }
+    - { role: ansible-role-base_setup }
     - { role: ansible-role-umts_usb_stick }
     - { role: ansible-role-check_network_connection }
     - { role: ansible-role-ssh_tunnel }

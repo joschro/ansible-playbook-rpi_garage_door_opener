@@ -1,0 +1,11 @@
+---
+- hosts: all
+  remote_user: opc
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  vars:
+    public_hostname: rhdus.freedns.io
+  roles:
+    - { role: ansible-role-dyndns_client }
+    - { role: ansible-role-ssh_portforward }

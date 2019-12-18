@@ -1,0 +1,17 @@
+---
+- name: install ddupdate package
+  package:
+    name: ddupdate
+    state: present
+
+- name: configure ddupdate
+  debug:
+    msg: "Please run the command ddupdate-config to configure ddupdate for your DynDNS environment."
+
+- name: configure ddupdate to work with NetworkManager
+  command: cp /usr/share/ddupdate/dispatcher.d/50-ddupdate /etc/NetworkManager/dispatcher.d/
+
+- name: configure cron to run ddupdate every 10 minutes
+  template:
+    src: "etc/cron.d/ddupdate.j2"
+    dest: "/etc/cron.d/ddupdate"
