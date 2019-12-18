@@ -1,6 +1,8 @@
 ---
 - hosts: localhost
   gather_facts: yes
+  vars:
+    rpi_hostname: rpidus.redhat.com
   vars_files:
     - /root/ansible-playbook-rpi_garage_door_opener-vars.yml
   roles:
